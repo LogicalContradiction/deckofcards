@@ -6,11 +6,14 @@ class Suit(Enum):
 	DIAMOND = 2
 	HEART = 3
 	SPADE = 4
+	JOKER = 5
 
 	def __repr__(self):
 		return f"deckofcardsenums.Suit.{self.name}"
 
 	def __str__(self):
+		if self == Suit.JOKER:
+			return f"{self.name.lower()}"
 		return f"{self.name.lower()}s"
 
 
@@ -30,6 +33,7 @@ class Value(Enum):
 	QUEEN = 12
 	KING = 13
 	ACE = 14
+	JOKER = 15
 
 	def __repr__(self):
 		return f"deckofcardsenums.Value.{self.name}"
@@ -38,7 +42,8 @@ class Value(Enum):
 		if self == Value.JACK \
 		or self == Value.QUEEN \
 		or self == Value.KING \
-		or self == Value.ACE:
+		or self == Value.ACE \
+		or self == Value.JOKER:
 			return self.name.lower()
 		return str(self.value)
 

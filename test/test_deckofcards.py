@@ -24,12 +24,14 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 		self.assertEqual(repr(Suit.DIAMOND), "deckofcardsenums.Suit.DIAMOND")
 		self.assertEqual(repr(Suit.SPADE), "deckofcardsenums.Suit.SPADE")
 		self.assertEqual(repr(Suit.HEART), "deckofcardsenums.Suit.HEART")
+		self.assertEqual(repr(Suit.JOKER), "deckofcardsenums.Suit.JOKER")
 
 	def test_suit_str(self):
 		self.assertEqual(str(Suit.CLUB), "clubs")
 		self.assertEqual(str(Suit.DIAMOND), "diamonds")
 		self.assertEqual(str(Suit.SPADE), "spades")
 		self.assertEqual(str(Suit.HEART), "hearts")
+		self.assertEqual(str(Suit.JOKER), "joker")
 
 	def test_value_repr(self):
 		self.assertEqual(repr(Value.TWO), "deckofcardsenums.Value.TWO")
@@ -45,6 +47,8 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 		self.assertEqual(repr(Value.QUEEN), "deckofcardsenums.Value.QUEEN")
 		self.assertEqual(repr(Value.KING), "deckofcardsenums.Value.KING")
 		self.assertEqual(repr(Value.ACE), "deckofcardsenums.Value.ACE")
+		self.assertEqual(repr(Value.JOKER), "deckofcardsenums.Value.JOKER")
+
 
 	def test_value_str(self):
 		self.assertEqual(str(Value.TWO), "2")
@@ -60,6 +64,7 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 		self.assertEqual(str(Value.QUEEN), "queen")
 		self.assertEqual(str(Value.KING), "king")
 		self.assertEqual(str(Value.ACE), "ace")
+		self.assertEqual(str(Value.JOKER), "joker")
 
 	def test_value_comparison(self):
 		#gt
@@ -78,10 +83,14 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 	def test_card_repr(self):
 		card = deckofcards.Card(Value.TEN, Suit.CLUB)
 		self.assertEqual(repr(card), "deckofcards.Card(deckofcardsenums.Value.TEN, deckofcardsenums.Suit.CLUB)")
+		card2 = deckofcards.Card(Value.JOKER, Suit.JOKER)
+		self.assertEqual(repr(card2), "deckofcards.Card(deckofcardsenums.Value.JOKER, deckofcardsenums.Suit.JOKER)")
 
 	def test_card_str(self):
 		card = deckofcards.Card(Value.TEN, Suit.CLUB)
 		self.assertEqual(str(card), "10 of clubs")
+		card2 = deckofcards.Card(Value.JOKER, Suit.JOKER)
+		self.assertEqual(str(card2), "joker")
 
 	def test_card_comparison(self):
 		card1 = deckofcards.Card(Value.TEN, Suit.CLUB)
@@ -100,3 +109,52 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 		#ge
 		self.assertTrue(card2 >= card3)
 		self.assertFalse(card3 >= card2)
+
+	def test_deck_reset(self):
+		deck = deckofcards.Deck(shuffle=False)
+		deck.deck = []
+		deck.reset_deck()
+		self.assertEqual(len(deck.deck), 52)
+
+	def test_deck_jokers(self):
+		deck = deckofcards.Deck(shuffle=False, num_jokers=2)
+		joker = deckofcards.Card(Value.JOKER, Suit.JOKER)
+		self.assertEqual(len(deck.deck), 54)
+		for card in deck.deck[-2:-1]:
+			self.assertEqual(card, joker)
+
+	def test_deck_draw_one(self):
+		deck = deckofcards.Deck()
+		drawn_cards = deck.draw()
+		self.assertEqual(len(deck.deck), 51)
+		for card in deck.deck:
+			for top_card in drawn_cards:
+				self.assertNotEqual(top_card, card)
+
+	def test_deck_draw_twenty(self):
+		deck = deckofcards.Deck()
+		drawn_cards = deck.draw(num_cards=20)
+		self.assertEqual(len(deck.deck), 32)
+		for card in deck.deck:
+			for top_card in drawn_cards:
+				self.assertNotEqual(top_card, card)
+
+	def test_deck_remove_one_card(self):
+		remove_card = deckofcards.Card(Value.ACE, Suit.SPADE)
+		deck = deckofcards.Deck()
+		deck.remove_one_card(Value.ACE, Suit.SPADE)
+		self.assertEqual(len(deck.deck), 51)
+		for card in deck.deck:
+			self.assertNotEqual(remove_card, card)
+
+	def test_add_one_card(self):
+		card_extra = deckofcards.Card(Value.QUEEN, Suit.SPADE)
+		deck = deckofcards.Deck()
+		deck.add_one_card(card_extra)
+		self.assertEqual(len(deck.deck), 53)
+		num_queen_spades = 0
+		for card in deck.deck:
+			if card == card_extra:
+				num_queen_spades += 1
+		self.assertEqual(num_queen_spades, 2)
+
