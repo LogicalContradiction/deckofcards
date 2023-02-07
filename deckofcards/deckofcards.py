@@ -44,7 +44,8 @@ class Card():
 class Deck():
 
 	def __init__(self, num_jokers=0, shuffle=True, num_combine_decks=1):
-		self.num_decks = num_combine_decks
+		self.num_combine_decks = num_combine_decks
+		self.num_jokers = num_jokers
 		self.deck = self._create_deck(num_jokers, num_combine_decks)
 		if shuffle:
 			self.shuffle()
@@ -60,8 +61,8 @@ class Deck():
 			result.append(Card(Value.JOKER, Suit.JOKER))
 		return result
 
-	def reset_deck(self, num_jokers=0, shuffle=True):
-		result = self._create_deck(num_jokers)
+	def reset_deck(self, shuffle=True):
+		result = self._create_deck(self.num_jokers, self.num_combine_decks)
 		if shuffle:
 			self.shuffle()
 		self.deck = result
