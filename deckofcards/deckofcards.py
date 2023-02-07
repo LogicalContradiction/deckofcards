@@ -43,16 +43,18 @@ class Card():
 
 class Deck():
 
-	def __init__(self, num_jokers=0, shuffle=True):
-		self.deck = self._create_deck(num_jokers)
+	def __init__(self, num_jokers=0, shuffle=True, num_combine_decks=1):
+		self.num_decks = num_combine_decks
+		self.deck = self._create_deck(num_jokers, num_combine_decks)
 		if shuffle:
 			self.shuffle()
 
-	def _create_deck(self, num_jokers=0):
+	def _create_deck(self, num_jokers=0, num_combine_decks=1):
 		result = []
 		for suit in list(Suit)[:-1]:
 			for value in list(Value)[:-1]:
-				result.append(Card(value, suit))
+				for count in range(num_combine_decks):
+					result.append(Card(value, suit))
 
 		for count in range(num_jokers):
 			result.append(Card(Value.JOKER, Suit.JOKER))

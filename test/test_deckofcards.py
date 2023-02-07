@@ -158,3 +158,12 @@ class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
 				num_queen_spades += 1
 		self.assertEqual(num_queen_spades, 2)
 
+	def test_deck_with_six_decks(self):
+		deck = deckofcards.Deck(num_combine_decks=6)
+		exp_card = deckofcards.Card(Value.SEVEN, Suit.CLUB)
+		num_cards = 0
+		for card in deck.deck:
+			if card == exp_card:
+				num_cards += 1
+		self.assertEqual(num_cards, 6)
+
