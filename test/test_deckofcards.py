@@ -4,7 +4,7 @@ import inspect
 from deckofcards import deckofcards
 from deckofcards.deckofcardsenums import Suit, Value
 
-class AoC_2022_Puzzle_13_Tests(unittest.TestCase):
+class DeckofCards_Tests(unittest.TestCase):
 
 	def test_card_eq(self):
 		card1 = deckofcards.Card(Value.TEN, Suit.CLUB)
