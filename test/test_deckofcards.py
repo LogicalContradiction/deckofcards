@@ -167,3 +167,38 @@ class DeckofCards_Tests(unittest.TestCase):
 				num_cards += 1
 		self.assertEqual(num_cards, 6)
 
+	def test_card_lt_with_suits(self):
+		card_g = deckofcards.Card(Value.QUEEN, Suit.SPADE)
+		card_l = deckofcards.Card(Value.QUEEN, Suit.HEART)
+
+		self.assertTrue(card_l < card_g)
+		self.assertFalse(card_g < card_l)
+
+
+	def test_card_le_with_suits(self):
+		card_g = deckofcards.Card(Value.QUEEN, Suit.SPADE)
+		card_l = deckofcards.Card(Value.QUEEN, Suit.HEART)
+		card_e = deckofcards.Card(Value.QUEEN, Suit.HEART)
+
+		self.assertTrue(card_l <= card_g)
+		self.assertFalse(card_g <= card_l)
+
+		self.assertTrue(card_l <= card_e)
+
+	def test_card_gt_with_suits(self):
+		card_g = deckofcards.Card(Value.QUEEN, Suit.SPADE)
+		card_l = deckofcards.Card(Value.QUEEN, Suit.HEART)
+
+		self.assertFalse(card_l > card_g)
+		self.assertTrue(card_g > card_l)
+
+	def test_card_ge_with_suits(self):
+		card_g = deckofcards.Card(Value.QUEEN, Suit.SPADE)
+		card_l = deckofcards.Card(Value.QUEEN, Suit.HEART)
+		card_e = deckofcards.Card(Value.QUEEN, Suit.HEART)
+
+		self.assertFalse(card_l >= card_g)
+		self.assertTrue(card_g >= card_l)
+
+		self.assertTrue(card_l >= card_e)
+

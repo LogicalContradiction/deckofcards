@@ -1,4 +1,5 @@
 from enum import Enum
+from .const import DEFAULT_RANKS
 
 
 class Suit(Enum):
@@ -15,11 +16,24 @@ class Suit(Enum):
 		if self == Suit.JOKER:
 			return f"{self.name.lower()}"
 		return f"{self.name.lower()}s"
+	
+	def get_rank(self, ranks=None):
+		key = self.name
+		if ranks == None:
+			return DEFAULT_RANKS["suits"][key]
+		return ranks["suits"][key]
+	
+	@classmethod
+	def does_sort_by_suit(self, ranks=None):
+		if ranks == None:
+			return bool(DEFAULT_RANKS["values"])
+		return bool(ranks["values"])
 
 
 
 
 class Value(Enum):
+	ACE = 1
 	TWO = 2
 	THREE = 3
 	FOUR = 4
@@ -32,8 +46,7 @@ class Value(Enum):
 	JACK = 11
 	QUEEN = 12
 	KING = 13
-	ACE = 14
-	JOKER = 15
+	JOKER = 14
 
 	def __repr__(self):
 		return f"deckofcardsenums.Value.{self.name}"
@@ -66,5 +79,11 @@ class Value(Enum):
 		if not isinstance(other, Value):
 			return NotImplemented
 		return self.value >= other.value
+	
+	def get_rank(self, ranks=None):
+		key = self.name
+		if ranks==None:
+			return DEFAULT_RANKS["values"][key]
+		return ranks.values[key]
 
 	

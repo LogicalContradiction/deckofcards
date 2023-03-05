@@ -1,4 +1,5 @@
 from .deckofcardsenums import Suit, Value
+from .const import DEFAULT_RANKS
 import random
 
 class Card():
@@ -7,30 +8,75 @@ class Card():
 		self.value = value
 		self.suit = suit
 
-	def __eq__(self, other):
-		if not isinstance(other, Card):
-			return NotImplemented
-		return self.value == other.value and self.suit == other.suit
+	def eq(self, other, ranks=None):
+		return self.__eq__(other, ranks)
 
-	def __lt__(self, other):
+	def __eq__(self, other, ranks=None):
 		if not isinstance(other, Card):
 			return NotImplemented
-		return self.value < other.value
+		self_rank = self.value.get_rank(ranks)
+		other_rank = other.value.get_rank(ranks)
+		if self_rank == other_rank and Suit.does_sort_by_suit(ranks):
+			self_suit_rank = self.suit.get_rank(ranks)
+			other_suit_rank = other.suit.get_rank(ranks)
+			return self_rank == other_rank and self_suit_rank == other_suit_rank
+		return self_rank == other_rank and self.suit == other.suit
+	
+	def lt(self, other, ranks=None):
+		return self.__lt__(other, ranks)
 
-	def __le__(self, other):
+	def __lt__(self, other, ranks=None):
 		if not isinstance(other, Card):
 			return NotImplemented
-		return self.value <= other.value
+		self_rank = self.value.get_rank(ranks)
+		other_rank = other.value.get_rank(ranks)
+		if self_rank == other_rank and Suit.does_sort_by_suit(ranks):
+			self_suit_rank = self.suit.get_rank(ranks)
+			other_suit_rank = other.suit.get_rank(ranks)
+			return self_suit_rank < other_suit_rank
+		return self_rank < other_rank
+	
+	def le(self, other, ranks=None):
+		return self.__le__(other, ranks)
 
-	def __gt__(self, other):
+	def __le__(self, other, ranks=None):
 		if not isinstance(other, Card):
 			return NotImplemented
-		return self.value > other.value
+		self_rank = self.value.get_rank(ranks)
+		other_rank = other.value.get_rank(ranks)
+		if self_rank == other_rank and Suit.does_sort_by_suit(ranks):
+			self_suit_rank = self.suit.get_rank(ranks)
+			other_suit_rank = other.suit.get_rank(ranks)
+			return self_suit_rank <= other_suit_rank
+		return self_rank <= other_rank
+	
+	def gt(self, other, ranks=None):
+		return self.__gt__(other, ranks)
 
-	def __ge__(self, other):
+	def __gt__(self, other, ranks=None):
 		if not isinstance(other, Card):
 			return NotImplemented
-		return self.value >= other.value
+		self_rank = self.value.get_rank(ranks)
+		other_rank = other.value.get_rank(ranks)
+		if self_rank == other_rank and Suit.does_sort_by_suit(ranks):
+			self_suit_rank = self.suit.get_rank(ranks)
+			other_suit_rank = other.suit.get_rank(ranks)
+			return self_suit_rank > other_suit_rank
+		return self_rank > other_rank
+	
+	def ge(self, other, ranks=None):
+		return self.__ge__(other, ranks)
+
+	def __ge__(self, other, ranks=None):
+		if not isinstance(other, Card):
+			return NotImplemented
+		self_rank = self.value.get_rank(ranks)
+		other_rank = other.value.get_rank(ranks)
+		if self_rank == other_rank and Suit.does_sort_by_suit(ranks):
+			self_suit_rank = self.suit.get_rank(ranks)
+			other_suit_rank = other.suit.get_rank(ranks)
+			return self_suit_rank >= other_suit_rank
+		return self_rank >= other_rank
 
 	def __repr__(self):
 		return f"deckofcards.Card({repr(self.value)}, {repr(self.suit)})"
