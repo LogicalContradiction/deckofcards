@@ -89,9 +89,13 @@ class Card():
 
 class Deck():
 
-	def __init__(self, num_jokers=0, shuffle=True, num_combine_decks=1):
+	def __init__(self, num_jokers=0, shuffle=True, num_combine_decks=1, ranks=None):
 		self.num_combine_decks = num_combine_decks
 		self.num_jokers = num_jokers
+		if ranks == None:
+			self.ranks = DEFAULT_RANKS
+		else:
+			self.ranks = ranks
 		self.deck = self._create_deck(num_jokers, num_combine_decks)
 		if shuffle:
 			self.shuffle()
@@ -128,3 +132,6 @@ class Deck():
 
 	def add_one_card(self, card):
 		self.deck.append(card)
+
+	def __getitem__(self, index):
+		return self.deck[index]

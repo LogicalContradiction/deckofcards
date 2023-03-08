@@ -202,3 +202,11 @@ class DeckofCards_Tests(unittest.TestCase):
 
 		self.assertTrue(card_l >= card_e)
 
+	def test_deck_getitem(self):
+		deck = deckofcards.Deck()
+
+		card1 = deck[10]
+		card2 = deck.deck[10]
+
+		self.assertTrue(card1, card2)
+
